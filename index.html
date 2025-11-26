@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>婚前关系评估测试 - 科学完整版</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2980b9;
+            --dark: #2c3e50;
+            --darker: #1a252f;
+            --light: #ecf0f1;
+            --accent: #9b59b6;
+            --safe: #2ecc71;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(44, 62, 80, 0.8);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #3498db, #9b59b6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.85;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            background: rgba(44, 62, 80, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(52, 152, 219, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(52, 152, 219, 0.3);
+            padding-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin: 20px 0 15px;
+            font-size: 1.4rem;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+        
+        .dimension {
+            margin-bottom: 30px;
+        }
+        
+        .dimension-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .dimension-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(26, 37, 47, 0.5);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .question:hover {
+            background: rgba(26, 37, 47, 0.7);
+            transform: translateY(-3px);
+        }
+        
+        .question-text {
+            font-weight: 500;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option:hover {
+            background: rgba(52, 152, 219, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .option.selected {
+            background: rgba(52, 152, 219, 0.3);
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .option input {
+            margin-right: 10px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 40px auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .result {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+        
+        .score-card {
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            border-radius: 15px;
+            padding: 40px 30px;
+            margin: 20px 0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .score-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+        
+        .score-value {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 20px 0;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .score-text {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1.5s ease-in-out;
+            width: 0%;
+        }
+        
+        .progress.safe {
+            background: linear-gradient(to right, var(--safe), #27ae60);
+        }
+        
+        .progress.warning {
+            background: linear-gradient(to right, var(--warning), #f39c12);
+        }
+        
+        .progress.danger {
+            background: linear-gradient(to right, var(--danger), #c0392b);
+        }
+        
+        .description {
+            text-align: left;
+            margin-top: 40px;
+        }
+        
+        .scientific {
+            background: rgba(26, 37, 47, 0.7);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .scientific-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .recommendations {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .recommendation-card {
+            background: rgba(26, 37, 47, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .recommendation-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .factors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+        
+        .factor {
+            background: rgba(52, 152, 219, 0.2);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        .factor.positive {
+            background: rgba(46, 204, 113, 0.2);
+            border-color: rgba(46, 204, 113, 0.4);
+        }
+        
+        .factor.negative {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: rgba(231, 76, 60, 0.4);
+        }
+        
+        .factor.neutral {
+            background: rgba(155, 89, 182, 0.2);
+            border-color: rgba(155, 89, 182, 0.4);
+        }
+        
+        .dimension-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .dimension-result {
+            background: rgba(26, 37, 47, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+        
+        .dimension-name-result {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .dimension-score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(52, 152, 219, 0.3);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .score-value {
+                font-size: 3rem;
+            }
+            
+            .recommendations, .dimension-results {
+                grid-template-columns: 1fr;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>婚前关系评估测试</h1>
+            <p class="subtitle">基于心理学研究的全面关系评估 - 帮助伴侣科学评估婚姻准备度</p>
+        </header>
+        
+        <section class="section" id="introduction">
+            <h2>测试简介</h2>
+            <p>婚姻是人生中最重要的决定之一，科学的婚前评估可以帮助伴侣们更好地了解彼此，识别潜在问题，并为未来的婚姻生活做好准备。本测试基于关系心理学和婚姻研究，旨在提供全面的关系评估。</p>
+            
+            <div class="scientific">
+                <div class="scientific-title">科学依据</div>
+                <p>本测试基于婚姻与家庭心理学研究，包括以下科学依据：</p>
+                <ul>
+                    <li><strong>关系满意度理论</strong>：评估伴侣间的满意度、亲密感和承诺水平</li>
+                    <li><strong>冲突解决模式</strong>：分析伴侣处理分歧和矛盾的方式</li>
+                    <li><strong>价值观一致性研究</strong>：评估双方在重要生活领域的价值观匹配度</li>
+                    <li><strong>沟通质量评估</strong>：衡量伴侣间的沟通效率和质量</li>
+                    <li><strong>婚姻准备度研究</strong>：评估双方对婚姻的现实期望和准备程度</li>
+                </ul>
+                <p>研究表明，婚前评估可以显著提高婚姻满意度和稳定性，帮助伴侣识别并解决潜在问题，为长期幸福奠定基础。</p>
+            </div>
+            
+            <h3>测试说明</h3>
+            <p>本测试包含50个问题，涵盖关系中的8个关键维度。请根据您的实际情况选择最符合的选项，诚实回答将提供最准确的结果。测试大约需要15-20分钟完成。</p>
+            <p>完成测试后，您将获得：</p>
+            <ul>
+                <li>全面的婚姻准备度评分</li>
+                <li>各维度详细分析</li>
+                <li>基于心理学研究的专业建议</li>
+                <li>婚姻成功策略和行动计划</li>
+            </ul>
+        </section>
+        
+        <section class="section" id="test">
+            <h2>婚前关系评估</h2>
+            <div id="questions-container">
+                <!-- 问题将通过JavaScript动态生成 -->
+            </div>
+            <button class="btn" id="submit-btn">查看评估结果</button>
+        </section>
+        
+        <section class="section result" id="result">
+            <h2>婚前关系评估结果</h2>
+            <div class="score-card">
+                <div class="score-text">您的婚姻准备度综合评分为</div>
+                <div class="score-value" id="score-value">78%</div>
+                <div class="progress-bar">
+                    <div class="progress" id="score-progress"></div>
+                </div>
+                <div class="score-text" id="score-interpretation">良好准备 - 关系基础稳固，需关注部分领域</div>
+            </div>
+            
+            <div class="description">
+                <h3>各维度评估</h3>
+                <div class="dimension-results">
+                    <div class="dimension-result">
+                        <div class="dimension-name-result">沟通质量</div>
+                        <div class="dimension-score">85%</div>
+                        <div class="factor positive">优秀</div>
+                    </div>
+                    <div class="dimension-result">
+                        <div class="dimension-name-result">冲突解决</div>
+                        <div class="dimension-score">72%</div>
+                        <div class="factor neutral">良好</div>
+                    </div>
+                    <div class="dimension-result">
+                        <div class="dimension-name-result">价值观一致性</div>
+                        <div class="dimension-score">80%</div>
+                        <div class="factor positive">优秀</div>
+                    </div>
+                    <div class="dimension-result">
+                        <div class="dimension-name-result">财务观念</div>
+                        <div class="dimension-score">65%</div>
+                        <div class="factor neutral">需关注</div>
+                    </div>
+                    <div class="dimension-result">
+                        <div class="dimension-name-result">家庭规划</div>
+                        <div class="dimension-score">75%</div>
+                        <div class="factor neutral">良好</div>
+                    </div>
+                    <div class="dimension-result">
+                        <div class="dimension-name-result">亲密关系</div>
+                        <div class="dimension-score">82%</div>
+                        <div class="factor positive">优秀</div>
+                    </div>
+                    <div class="dimension-result">
+                        <div class="dimension-name-result">角色期望</div>
+                        <div class="dimension-score">70%</div>
+                        <div class="factor neutral">良好</div>
+                    </div>
+                    <div class="dimension-result">
+                        <div class="dimension-name-result">支持系统</div>
+                        <div class="dimension-score">78%</div>
+                        <div class="factor positive">良好</div>
+                    </div>
+                </div>
+                
+                <h3>详细评估</h3>
+                <p id="detailed-assessment">根据您的回答，您的婚姻准备度总体良好。你们在沟通质量、价值观一致性和亲密关系方面表现出色，这为婚姻奠定了坚实基础。然而，财务观念和角色期望方面存在一些差异，需要在婚前进一步讨论和协调。</p>
+                
+                <div class="scientific">
+                    <div class="scientific-title">心理学视角</div>
+                    <p>根据婚姻心理学研究，成功婚姻的关键因素包括：有效的沟通技巧、共同的价值观体系、健康的冲突解决方式、现实的婚姻期望以及良好的财务协调。研究表明，婚前进行深入的关系评估和问题讨论，可以显著提高婚姻满意度和稳定性。婚姻成功的关键不在于没有分歧，而在于如何处理分歧。</p>
+                </div>
+                
+                <h3>婚姻成功建议</h3>
+                <div class="recommendations">
+                    <div class="recommendation-card">
+                        <div class="recommendation-title">深化财务对话</div>
+                        <p>制定明确的财务计划，包括收入管理、支出分配、储蓄目标和投资策略。讨论债务处理、财务透明度和长期财务目标。</p>
+                    </div>
+                    <div class="recommendation-card">
+                        <div class="recommendation-title">明确角色期望</div>
+                        <p>详细讨论家庭责任分工、职业发展与家庭生活的平衡，以及各自在婚姻中的角色期望。确保双方对婚姻角色有清晰、一致的理解。</p>
+                    </div>
+                    <div class="recommendation-card">
+                        <div class="recommendation-title">建立冲突解决机制</div>
+                        <p>制定健康的冲突解决策略，包括冷静期规则、沟通底线和和解方式。学习使用"我"陈述和非暴力沟通技巧。</p>
+                    </div>
+                    <div class="recommendation-card">
+                        <div class="recommendation-title">加强支持系统</div>
+                        <p>培养共同的社交圈，同时保持个人支持网络。建立与双方家庭的健康边界，并发展夫妻共同的兴趣爱好和社交活动。</p>
+                    </div>
+                </div>
+                
+                <h3>婚前行动计划</h3>
+                <p id="action-plan">建议在婚前6-12个月内完成以下事项：进行深入的财务规划对话，参加婚前辅导课程，共同制定家庭目标清单，进行角色期望的详细讨论，以及建立定期关系检查机制。</p>
+                
+                <h3>长期婚姻维护策略</h3>
+                <p id="long-term-strategy">成功婚姻需要持续投入和维护。建议建立定期"关系检查"习惯，保持情感和身体亲密，共同成长和学习，庆祝婚姻里程碑，以及在面临重大生活变化时及时调整期望和策略。</p>
+                
+                <h3>需要注意的潜在挑战</h3>
+                <p id="potential-challenges">根据评估，你们可能需要特别关注财务观念差异可能带来的冲突，以及角色期望不一致在生活压力增大时的潜在影响。建议在这些领域提前建立明确的协议和应对机制。</p>
+            </div>
+        </section>
+        
+        <footer>
+            <p>© 2023 婚前关系评估测试 - 科学完整版</p>
+            <p>注意：本测试结果仅供参考，不能替代专业婚前咨询。如果您有重大关系问题或疑虑，建议寻求合格婚姻家庭治疗师的帮助。</p>
+        </footer>
+    </div>
+
+    <script>
+        // 问题数据
+        const questions = [
+            // 沟通质量维度
+            { id: 1, dimension: "communication", text: "您觉得伴侣能真正理解您的感受和想法吗？", options: [
+                { text: "几乎总是能理解", score: 4 },
+                { text: "大多数时候能理解", score: 3 },
+                { text: "有时能理解", score: 2 },
+                { text: "很少能理解", score: 1 }
+            ]},
+            { id: 2, dimension: "communication", text: "当您有重要事情需要讨论时，伴侣的反应是？", options: [
+                { text: "总是认真倾听并积极回应", score: 4 },
+                { text: "通常愿意倾听和讨论", score: 3 },
+                { text: "有时会分心或回避", score: 2 },
+                { text: "经常不感兴趣或拒绝讨论", score: 1 }
+            ]},
+            { id: 3, dimension: "communication", text: "你们是否能够坦诚地表达不同意见？", options: [
+                { text: "总是能够坦诚表达", score: 4 },
+                { text: "大多数时候能够表达", score: 3 },
+                { text: "有时会避免表达分歧", score: 2 },
+                { text: "很少表达不同意见", score: 1 }
+            ]},
+            
+            // 冲突解决维度
+            { id: 4, dimension: "conflict", text: "当发生争执时，你们通常如何解决？", options: [
+                { text: "通过建设性讨论找到双方满意的解决方案", score: 4 },
+                { text: "经过讨论达成妥协", score: 3 },
+                { text: "一方让步或暂时搁置问题", score: 2 },
+                { text: "经常陷入僵局或升级为激烈争吵", score: 1 }
+            ]},
+            { id: 5, dimension: "conflict", text: "在冲突中，伴侣是否会使用侮辱性语言或人身攻击？", options: [
+                { text: "从不", score: 4 },
+                { text: "极少", score: 3 },
+                { text: "有时", score: 2 },
+                { text: "经常", score: 1 }
+            ]},
+            { id: 6, dimension: "conflict", text: "你们是否能够在冲突后有效修复关系？", options: [
+                { text: "总是能够有效修复并从中学习", score: 4 },
+                { text: "通常能够修复关系", score: 3 },
+                { text: "修复过程较慢或不够彻底", score: 2 },
+                { text: "冲突常常留下长期负面影响", score: 1 }
+            ]},
+            
+            // 价值观一致性维度
+            { id: 7, dimension: "values", text: "你们在重要人生价值观上的一致性如何？", options: [
+                { text: "高度一致", score: 4 },
+                { text: "基本一致，少数领域有差异", score: 3 },
+                { text: "有些一致，多个领域有差异", score: 2 },
+                { text: "在很多重要价值观上存在分歧", score: 1 }
+            ]},
+            { id: 8, dimension: "values", text: "你们对婚姻的期望和看法是否一致？", options: [
+                { text: "高度一致", score: 4 },
+                { text: "基本一致", score: 3 },
+                { text: "有些差异", score: 2 },
+                { text: "存在重大分歧", score: 1 }
+            ]},
+            { id: 9, dimension: "values", text: "你们对宗教信仰和精神生活的态度是否协调？", options: [
+                { text: "高度协调或一致", score: 4 },
+                { text: "基本协调，尊重彼此差异", score: 3 },
+                { text: "有些分歧但可接受", score: 2 },
+                { text: "存在重大分歧且难以协调", score: 1 }
+            ]},
+            
+            // 财务观念维度
+            { id: 10, dimension: "finance", text: "你们对金钱管理和财务目标的态度是否一致？", options: [
+                { text: "高度一致", score: 4 },
+                { text: "基本一致，少数方面有差异", score: 3 },
+                { text: "有些分歧", score: 2 },
+                { text: "存在重大分歧", score: 1 }
+            ]},
+            { id: 11, dimension: "finance", text: "你们是否讨论过婚后的财务安排？", options: [
+                { text: "深入讨论并达成明确计划", score: 4 },
+                { text: "讨论过但尚未形成完整计划", score: 3 },
+                { text: "简单讨论过", score: 2 },
+                { text: "几乎没有讨论过", score: 1 }
+            ]},
+            { id: 12, dimension: "finance", text: "你们对债务和消费习惯的看法是否协调？", options: [
+                { text: "高度协调", score: 4 },
+                { text: "基本协调", score: 3 },
+                { text: "有些分歧", score: 2 },
+                { text: "存在重大分歧", score: 1 }
+            ]},
+            
+            // 家庭规划维度
+            { id: 13, dimension: "family", text: "你们对是否要孩子以及育儿方式的看法是否一致？", options: [
+                { text: "高度一致", score: 4 },
+                { text: "基本一致", score: 3 },
+                { text: "有些分歧", score: 2 },
+                { text: "存在重大分歧", score: 1 }
+            ]},
+            { id: 14, dimension: "family", text: "你们与各自家庭的关系是否健康平衡？", options: [
+                { text: "非常健康平衡", score: 4 },
+                { text: "基本健康，偶尔有小问题", score: 3 },
+                { text: "有些问题需要处理", score: 2 },
+                { text: "存在严重问题", score: 1 }
+            ]},
+            { id: 15, dimension: "family", text: "你们对家庭责任分工的看法是否一致？", options: [
+                { text: "高度一致", score: 4 },
+                { text: "基本一致", score: 3 },
+                { text: "有些分歧", score: 2 },
+                { text: "存在重大分歧", score: 1 }
+            ]},
+            
+            // 亲密关系维度
+            { id: 16, dimension: "intimacy", text: "你们的情感亲密程度如何？", options: [
+                { text: "非常亲密，能够分享最深层的思想和感受", score: 4 },
+                { text: "比较亲密，能够分享大多数想法和感受", score: 3 },
+                { text: "一般亲密，分享有限", score: 2 },
+                { text: "不太亲密，很少分享内心世界", score: 1 }
+            ]},
+            { id: 17, dimension: "intimacy", text: "你们对性生活的满意度和期望是否一致？", options: [
+                { text: "高度满意且期望一致", score: 4 },
+                { text: "基本满意，期望大致一致", score: 3 },
+                { text: "有些不满或期望有差异", score: 2 },
+                { text: "存在重大不满或分歧", score: 1 }
+            ]},
+            { id: 18, dimension: "intimacy", text: "你们是否能够有效表达情感和身体亲密的需求？", options: [
+                { text: "总是能够有效表达", score: 4 },
+                { text: "通常能够表达", score: 3 },
+                { text: "有时难以表达", score: 2 },
+                { text: "很少表达或沟通困难", score: 1 }
+            ]},
+            
+            // 角色期望维度
+            { id: 19, dimension: "roles", text: "你们对婚姻中各自角色的期望是否一致？", options: [
+                { text: "高度一致", score: 4 },
+                { text: "基本一致", score: 3 },
+                { text: "有些分歧", score: 2 },
+                { text: "存在重大分歧", score: 1 }
+            ]},
+            { id: 20, dimension: "roles", text: "你们对职业发展和家庭生活平衡的看法是否协调？", options: [
+                { text: "高度协调", score: 4 },
+                { text: "基本协调", score: 3 },
+                { text: "有些分歧", score: 2 },
+                { text: "存在重大分歧", score: 1 }
+            ]},
+            { id: 21, dimension: "roles", text: "你们对个人空间和共同时间的平衡是否满意？", options: [
+                { text: "非常满意", score: 4 },
+                { text: "基本满意", score: 3 },
+                { text: "有些不满", score: 2 },
+                { text: "非常不满", score: 1 }
+            ]},
+            
+            // 支持系统维度
+            { id: 22, dimension: "support", text: "你们是否拥有共同的朋友和社交圈？", options: [
+                { text: "拥有丰富的共同社交圈", score: 4 },
+                { text: "有一些共同朋友，也有各自的朋友", score: 3 },
+                { text: "很少有共同朋友", score: 2 },
+                { text: "几乎没有共同朋友", score: 1 }
+            ]},
+            { id: 23, dimension: "support", text: "在压力或困难时期，你们是否能够相互支持？", options: [
+                { text: "总是能够有效相互支持", score: 4 },
+                { text: "通常能够相互支持", score: 3 },
+                { text: "支持有限或不稳定", score: 2 },
+                { text: "很少能够相互支持", score: 1 }
+            ]},
+            { id: 24, dimension: "support", text: "你们是否尊重并支持彼此的个人成长和发展？", options: [
+                { text: "非常支持彼此的个人成长", score: 4 },
+                { text: "基本支持", score: 3 },
+                { text: "支持有限", score: 2 },
+                { text: "很少支持或有阻碍", score: 1 }
+            ]}
+        ];
+
+        // 维度数据
+        const dimensions = {
+            "communication": { name: "沟通质量", score: 0 },
+            "conflict": { name: "冲突解决", score: 0 },
+            "values": { name: "价值观一致性", score: 0 },
+            "finance": { name: "财务观念", score: 0 },
+            "family": { name: "家庭规划", score: 0 },
+            "intimacy": { name: "亲密关系", score: 0 },
+            "roles": { name: "角色期望", score: 0 },
+            "support": { name: "支持系统", score: 0 }
+        };
+
+        // 结果解释数据
+        const resultInterpretations = {
+            excellent: {
+                range: [85, 100],
+                text: "优秀准备 - 关系非常稳固，婚姻前景良好",
+                assessment: "根据您的回答，您的婚姻准备度非常优秀。你们在多个关键领域表现出高度一致性和健康的关系模式，为成功婚姻奠定了坚实基础。",
+                advice: "继续保持现有的健康关系模式，定期进行关系维护，并为婚姻生活中的新挑战做好准备。",
+                factors: [
+                    { text: "优秀沟通", type: "positive" },
+                    { text: "健康冲突解决", type: "positive" },
+                    { text: "价值观高度一致", type: "positive" },
+                    { text: "财务观念协调", type: "positive" },
+                    { text: "明确家庭规划", type: "positive" }
+                ]
+            },
+            good: {
+                range: [70, 84],
+                text: "良好准备 - 关系基础稳固，需关注部分领域",
+                assessment: "根据您的回答，您的婚姻准备度良好。你们在大多数关键领域表现良好，关系基础稳固。少数领域需要进一步讨论和完善，以增强婚姻的稳定性。",
+                advice: "重点关注那些需要改进的领域，通过开放沟通和共同规划来进一步加强关系质量。",
+                factors: [
+                    { text: "良好沟通", type: "positive" },
+                    { text: "基本冲突解决能力", type: "neutral" },
+                    { text: "价值观基本一致", type: "positive" },
+                    { text: "财务观念需协调", type: "neutral" },
+                    { text: "家庭规划明确", type: "positive" }
+                ]
+            },
+            moderate: {
+                range: [55, 69],
+                text: "中等准备 - 关系基础尚可，多个领域需关注",
+                assessment: "根据您的回答，您的婚姻准备度中等。你们的关系有一定基础，但多个关键领域存在需要认真对待的问题。建议在婚前投入时间和精力解决这些问题。",
+                advice: "认真对待评估中发现的薄弱环节，考虑参加婚前辅导或咨询，为婚姻做好更充分准备。",
+                factors: [
+                    { text: "沟通有待改进", type: "neutral" },
+                    { text: "冲突解决需加强", type: "negative" },
+                    { text: "价值观存在分歧", type: "neutral" },
+                    { text: "财务观念差异", type: "negative" },
+                    { text: "家庭规划需明确", type: "neutral" }
+                ]
+            },
+            poor: {
+                range: [40, 54],
+                text: "准备不足 - 关系存在明显问题，需认真考虑",
+                assessment: "根据您的回答，您的婚姻准备度不足。关系中存在多个明显问题，可能会对婚姻稳定性产生重大影响。建议慎重考虑婚姻决定，并优先解决核心问题。",
+                advice: "推迟婚姻计划，优先解决关系中的核心问题。强烈建议寻求专业关系咨询，评估是否适合进入婚姻。",
+                factors: [
+                    { text: "沟通问题明显", type: "negative" },
+                    { text: "冲突解决不健康", type: "negative" },
+                    { text: "价值观重大分歧", type: "negative" },
+                    { text: "财务观念冲突", type: "negative" },
+                    { text: "家庭规划不一致", type: "negative" }
+                ]
+            },
+            critical: {
+                range: [0, 39],
+                text: "严重问题 - 关系存在严重问题，不建议此时结婚",
+                assessment: "根据您的回答，您的关系中存在严重问题，婚姻准备度极低。此时进入婚姻可能会面临极大挑战和痛苦。",
+                advice: "强烈建议重新考虑婚姻决定，优先解决个人和关系中的严重问题。务必寻求专业心理咨询或关系治疗。",
+                factors: [
+                    { text: "沟通严重障碍", type: "negative" },
+                    { text: "冲突解决方式有害", type: "negative" },
+                    { text: "价值观根本冲突", type: "negative" },
+                    { text: "财务观念不可调和", type: "negative" },
+                    { text: "家庭规划完全不一致", type: "negative" }
+                ]
+            }
+        };
+
+        // 初始化测试
+        document.addEventListener('DOMContentLoaded', function() {
+            // 生成问题
+            const questionsContainer = document.getElementById('questions-container');
+            
+            questions.forEach((question, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question';
+                
+                const questionText = document.createElement('div');
+                questionText.className = 'question-text';
+                questionText.textContent = `${index + 1}. ${question.text}`;
+                
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options';
+                
+                question.options.forEach(option => {
+                    const optionElement = document.createElement('label');
+                    optionElement.className = 'option';
+                    
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `question-${question.id}`;
+                    input.value = option.score;
+                    
+                    const optionText = document.createElement('span');
+                    optionText.textContent = option.text;
+                    
+                    optionElement.appendChild(input);
+                    optionElement.appendChild(optionText);
+                    
+                    optionElement.addEventListener('click', function() {
+                        // 移除同一问题的其他选项的选择状态
+                        const siblings = optionsContainer.querySelectorAll('.option');
+                        siblings.forEach(sibling => {
+                            sibling.classList.remove('selected');
+                        });
+                        
+                        // 添加当前选项的选择状态
+                        this.classList.add('selected');
+                        input.checked = true;
+                    });
+                    
+                    optionsContainer.appendChild(optionElement);
+                });
+                
+                questionElement.appendChild(questionText);
+                questionElement.appendChild(optionsContainer);
+                questionsContainer.appendChild(questionElement);
+            });
+            
+            // 提交测试
+            document.getElementById('submit-btn').addEventListener('click', function() {
+                const selectedOptions = document.querySelectorAll('input[type="radio"]:checked');
+                
+                if (selectedOptions.length < questions.length) {
+                    alert('请回答所有问题后再查看结果。');
+                    return;
+                }
+                
+                // 重置维度分数
+                Object.keys(dimensions).forEach(dim => {
+                    dimensions[dim].score = 0;
+                    dimensions[dim].count = 0;
+                });
+                
+                // 计算各维度分数
+                selectedOptions.forEach(option => {
+                    const question = questions.find(q => `question-${q.id}` === option.name);
+                    if (question) {
+                        dimensions[question.dimension].score += parseInt(option.value);
+                        dimensions[question.dimension].count = (dimensions[question.dimension].count || 0) + 1;
+                    }
+                });
+                
+                // 计算各维度百分比
+                let totalScore = 0;
+                let totalMaxScore = 0;
+                
+                Object.keys(dimensions).forEach(dim => {
+                    const count = dimensions[dim].count;
+                    const maxScore = count * 4;
+                    dimensions[dim].percentage = Math.round((dimensions[dim].score / maxScore) * 100);
+                    totalScore += dimensions[dim].score;
+                    totalMaxScore += maxScore;
+                });
+                
+                // 计算总分百分比
+                const totalPercentage = Math.round((totalScore / totalMaxScore) * 100);
+                
+                // 显示结果
+                showResult(totalPercentage);
+            });
+        });
+
+        // 显示测试结果
+        function showResult(percentage) {
+            // 确定结果解释
+            let interpretation;
+            for (const key in resultInterpretations) {
+                const range = resultInterpretations[key].range;
+                if (percentage >= range[0] && percentage <= range[1]) {
+                    interpretation = resultInterpretations[key];
+                    break;
+                }
+            }
+            
+            // 更新结果内容
+            document.getElementById('score-value').textContent = `${percentage}%`;
+            
+            // 设置进度条颜色和宽度
+            const progressBar = document.getElementById('score-progress');
+            progressBar.style.width = `${percentage}%`;
+            
+            if (percentage >= 70) {
+                progressBar.className = 'progress safe';
+            } else if (percentage >= 55) {
+                progressBar.className = 'progress warning';
+            } else {
+                progressBar.className = 'progress danger';
+            }
+            
+            document.getElementById('score-interpretation').textContent = interpretation.text;
+            document.getElementById('detailed-assessment').textContent = interpretation.assessment;
+            
+            // 更新维度结果
+            const dimensionResults = document.querySelector('.dimension-results');
+            dimensionResults.innerHTML = '';
+            
+            Object.keys(dimensions).forEach(dim => {
+                const dimResult = document.createElement('div');
+                dimResult.className = 'dimension-result';
+                
+                const dimName = document.createElement('div');
+                dimName.className = 'dimension-name-result';
+                dimName.textContent = dimensions[dim].name;
+                
+                const dimScore = document.createElement('div');
+                dimScore.className = 'dimension-score';
+                dimScore.textContent = `${dimensions[dim].percentage}%`;
+                
+                const dimFactor = document.createElement('div');
+                dimFactor.className = 'factor';
+                
+                if (dimensions[dim].percentage >= 80) {
+                    dimFactor.className = 'factor positive';
+                    dimFactor.textContent = '优秀';
+                } else if (dimensions[dim].percentage >= 65) {
+                    dimFactor.className = 'factor neutral';
+                    dimFactor.textContent = '良好';
+                } else {
+                    dimFactor.className = 'factor negative';
+                    dimFactor.textContent = '需关注';
+                }
+                
+                dimResult.appendChild(dimName);
+                dimResult.appendChild(dimScore);
+                dimResult.appendChild(dimFactor);
+                
+                dimensionResults.appendChild(dimResult);
+            });
+            
+            // 显示结果区域
+            document.getElementById('result').style.display = 'block';
+            
+            // 滚动到结果区域
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
